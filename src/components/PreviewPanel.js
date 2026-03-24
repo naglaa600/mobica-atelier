@@ -10,12 +10,74 @@ export default function PreviewPanel({ selectedCladding, selectedDesk }) {
 
   const [deskX, setDeskX] = useState(0);
   const [deskY, setDeskY] = useState(0);
+  const [downloading, setDownloading] = useState(false);
+  const canvasContainerRef = useRef(null);
 
   // Reset desk position when desk selection changes
   useEffect(() => {
     setDeskX(0);
     setDeskY(0);
   }, [selectedDesk]);
+
+  async function handleDownload() {
+    if (!claddingSrc) return;
+    setDownloading(true);
+
+    const container = canvasContainerRef.current;
+    const W = container?.offsetWidth  ?? 1200;
+    const H = container?.offsetHeight ?? 800;
+
+    const offscreen = document.createElement("canvas");
+    offscreen.width  = W;
+    offscreen.height = H;
+    const ctx = offscreen.getContext("2d");
+
+    function drawCover(img) {
+      const scale = Math.max(W / img.naturalWidth, H / img.naturalHeight);
+      const w = img.naturalWidth  * scale;
+      const h = img.naturalHeight * scale;
+      ctx.drawImage(img, (W - w) / 2, (H - h) / 2, w, h);
+    }
+
+    function loadImage(src) {
+      return new Promise((resolve, reject) => {
+        const img = new window.Image();
+        img.crossOrigin = "anonymous";
+        img.onload  = () => resolve(img);
+        img.onerror = reject;
+        img.src = src;
+      });
+    }
+
+    try {
+      // Draw cladding base
+      const claddingImg = await loadImage(claddingSrc);
+      drawCover(claddingImg);
+
+      // Draw desk overlay with current offset
+      if (deskSrc) {
+        const deskImg = await loadImage(deskSrc);
+        const offsetX = (deskX / 100) * W;
+        const offsetY = (deskY / 100) * H;
+        ctx.save();
+        ctx.translate(offsetX, offsetY);
+        drawCover(deskImg);
+        ctx.restore();
+      }
+
+      offscreen.toBlob((blob) => {
+        const url = URL.createObjectURL(blob);
+        const a   = document.createElement("a");
+        a.href     = url;
+        a.download = `mobica-${caption.replace(/\s·\s/g, "_").replace(/\s/g, "-").toLowerCase() || "composition"}.png`;
+        a.click();
+        URL.revokeObjectURL(url);
+        setDownloading(false);
+      }, "image/png");
+    } catch {
+      setDownloading(false);
+    }
+  }
 
   const claddingSrc = selectedCladding
     ? `/images/claddings/${selectedCladding}/preview.jpg`
@@ -69,6 +131,7 @@ export default function PreviewPanel({ selectedCladding, selectedDesk }) {
         >
           {/* Inner canvas */}
           <div
+            ref={canvasContainerRef}
             style={{
               position: "relative",
               width: "100%",
@@ -213,10 +276,18 @@ export default function PreviewPanel({ selectedCladding, selectedDesk }) {
           </div>
         </div>
 
-        {/* Caption plaque */}
+        {/* Caption plaque + download */}
         <div
           style={{
             marginTop: "16px",
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+          }}
+        >
+        <div
+          style={{
+            flex: 1,
             padding: "8px 24px",
             background: "#FFFFFF",
             borderRadius: "2px",
@@ -253,6 +324,46 @@ export default function PreviewPanel({ selectedCladding, selectedDesk }) {
               Interior Composition
             </p>
           )}
+        </div>
+
+        {/* Download button */}
+        {claddingSrc && (
+          <button
+            onClick={handleDownload}
+            disabled={downloading}
+            title="Download composition"
+            style={{
+              flexShrink: 0,
+              height: "100%",
+              padding: "0 14px",
+              background: downloading ? "#C8B89A" : "#8B6B4A",
+              border: "none",
+              borderRadius: "2px",
+              cursor: downloading ? "default" : "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              boxShadow: "0 1px 4px rgba(44,34,24,0.06), 0 0 0 1px rgba(44,34,24,0.03)",
+              transition: "background 0.2s ease",
+            }}
+          >
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 15 15"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M7.5 1v9m0 0L4.5 7m3 3 3-3M1.5 13h12"
+                stroke="#F5F0E8"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+        )}
         </div>
       </div>
     </main>
