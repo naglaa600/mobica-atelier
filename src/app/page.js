@@ -1,13 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { config } from "@/config";
 import Sidebar from "@/components/Sidebar";
 import PreviewPanel from "@/components/PreviewPanel";
 
 export default function Home() {
-  const [selectedCladding, setSelectedCladding] = useState(config.claddings[0]?.id ?? null);
-  const [selectedDesk, setSelectedDesk] = useState(config.desks[0]?.id ?? null);
+  const [selectedCladding, setSelectedCladding] = useState(null);
+  const [selectedDesk, setSelectedDesk] = useState(null);
 
   return (
     <div
