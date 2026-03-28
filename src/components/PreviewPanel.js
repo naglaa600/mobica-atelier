@@ -258,9 +258,9 @@ export default function PreviewPanel({ selectedCladding, selectedDesk, selectedS
               <div
                 style={{
                   position: "absolute",
-                  bottom: "16px",
-                  left: "50%",
-                  transform: "translateX(-50%)",
+                  right: "16px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
                   background: "rgba(255,255,255,0.88)",
                   backdropFilter: "blur(10px)",
                   borderRadius: "6px",
