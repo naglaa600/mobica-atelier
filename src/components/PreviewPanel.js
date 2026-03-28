@@ -295,6 +295,7 @@ export default function PreviewPanel({ selectedCladding, selectedDesk, selectedS
                       label="↑ ↓"
                       value={deskY}
                       onChange={setDeskY}
+                      width="75px"
                     />
                   </div>
                 )}
@@ -321,6 +322,7 @@ export default function PreviewPanel({ selectedCladding, selectedDesk, selectedS
                       label="↑ ↓"
                       value={sofaY}
                       onChange={setSofaY}
+                      width="75px"
                     />
                   </div>
                 )}
