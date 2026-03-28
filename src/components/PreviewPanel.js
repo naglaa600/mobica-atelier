@@ -281,6 +281,7 @@ export default function PreviewPanel({ selectedCladding, selectedDesk, selectedS
                       label="← →"
                       value={deskX}
                       onChange={setDeskX}
+                      width="75px"
                     />
                     <div
                       style={{
@@ -306,6 +307,7 @@ export default function PreviewPanel({ selectedCladding, selectedDesk, selectedS
                       label="← →"
                       value={sofaX}
                       onChange={setSofaX}
+                      width="75px"
                     />
                     <div
                       style={{
@@ -455,7 +457,7 @@ export default function PreviewPanel({ selectedCladding, selectedDesk, selectedS
 
 // ── SliderControl ───────────────────────────────────────────────────────────
 
-function SliderControl({ label, value, onChange }) {
+function SliderControl({ label, value, onChange, width = "110px" }) {
   return (
     <div
       style={{
@@ -485,7 +487,7 @@ function SliderControl({ label, value, onChange }) {
         value={value}
         onChange={(e) => onChange(parseFloat(e.target.value))}
         style={{
-          width: "110px",
+          width: width,
           accentColor: "#8B6B4A",
           cursor: "pointer",
         }}
