@@ -258,16 +258,15 @@ export default function PreviewPanel({ selectedCladding, selectedDesk, selectedS
               <div
                 style={{
                   position: "absolute",
-                  right: "16px",
-                  top: "50%",
-                  transform: "translateY(-50%)",
+                  right: "10px",
+                  bottom: "10px",
                   background: "rgba(255,255,255,0.88)",
                   backdropFilter: "blur(10px)",
                   borderRadius: "6px",
-                  padding: "10px 22px",
+                  padding: "6px 12px",
                   display: "flex",
                   flexDirection: "column",
-                  gap: "10px",
+                  gap: "6px",
                   alignItems: "center",
                   boxShadow:
                     "0 2px 12px rgba(44,34,24,0.12), 0 0 0 1px rgba(44,34,24,0.06)",
@@ -276,17 +275,17 @@ export default function PreviewPanel({ selectedCladding, selectedDesk, selectedS
                 }}
               >
                 {showDesk && (
-                  <div style={{ display: "flex", gap: "18px", alignItems: "center" }}>
+                  <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
                     <SliderControl
                       label="← →"
                       value={deskX}
                       onChange={setDeskX}
-                      width="75px"
+                      width="55px"
                     />
                     <div
                       style={{
                         width: "1px",
-                        height: "28px",
+                        height: "20px",
                         background: "rgba(44,34,24,0.12)",
                         flexShrink: 0,
                       }}
@@ -295,7 +294,7 @@ export default function PreviewPanel({ selectedCladding, selectedDesk, selectedS
                       label="↑ ↓"
                       value={deskY}
                       onChange={setDeskY}
-                      width="75px"
+                      width="55px"
                     />
                   </div>
                 )}
@@ -303,17 +302,17 @@ export default function PreviewPanel({ selectedCladding, selectedDesk, selectedS
                   <div style={{ width: "100%", height: "1px", background: "rgba(44,34,24,0.12)" }} />
                 )}
                 {showSofa && (
-                  <div style={{ display: "flex", gap: "18px", alignItems: "center" }}>
+                  <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
                     <SliderControl
                       label="← →"
                       value={sofaX}
                       onChange={setSofaX}
-                      width="75px"
+                      width="55px"
                     />
                     <div
                       style={{
                         width: "1px",
-                        height: "28px",
+                        height: "20px",
                         background: "rgba(44,34,24,0.12)",
                         flexShrink: 0,
                       }}
@@ -322,7 +321,7 @@ export default function PreviewPanel({ selectedCladding, selectedDesk, selectedS
                       label="↑ ↓"
                       value={sofaY}
                       onChange={setSofaY}
-                      width="75px"
+                      width="55px"
                     />
                   </div>
                 )}
@@ -473,8 +472,8 @@ function SliderControl({ label, value, onChange, width = "110px" }) {
         style={{
           fontFamily: "'Jost', sans-serif",
           fontWeight: 300,
-          fontSize: "0.65rem",
-          letterSpacing: "0.12em",
+          fontSize: "0.5rem",
+          letterSpacing: "0.1em",
           color: "#8B6B4A",
           textTransform: "uppercase",
         }}
